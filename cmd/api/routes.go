@@ -14,6 +14,7 @@ func (app *application) routes() http.Handler {
 	// configure the middleware
 	//   handles 500 errors
 	mux.Use(middleware.Recoverer)
+	mux.Use(app.enableCors)
 
 	// add routes
 	mux.Get("/", app.Home)
