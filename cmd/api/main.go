@@ -1,7 +1,8 @@
 package main
 
 import (
-	"database/sql"
+	"backend/internal/repository"
+	"backend/internal/repository/dbrepo"
 	"flag"
 	"fmt"
 	"log"
@@ -12,8 +13,8 @@ const port = 8080
 
 type application struct {
 	Domain string
-	Dsn string
-	Db *sql.DB
+	Dsn    string
+	Db     repository.DatabaseRepo
 }
 
 func main() {
@@ -29,8 +30,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	app.Db = conn
-	defer app.Db.Close()
+	app.Db = &dbrepo.PostgresDbRepo{Db: conn}
+	defer app.Db.Connection().Close()
 
 	app.Domain = "example.com"
 
