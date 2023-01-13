@@ -23,6 +23,7 @@ func (app *application) AllMovies(w http.ResponseWriter, r *http.Request) {
 	movies, err := app.Db.AllMovies()
 	if err != nil {
 		fmt.Println(err)
+		app.errorJson(w, err)
 		return
 	}
 
