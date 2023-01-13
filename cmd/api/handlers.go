@@ -33,8 +33,19 @@ func (app *application) AllMovies(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
 	// Read the JSON payload
+	var requestPayload struct {
+		Email string `json:"email"`
+		Password string `json:"password"`
+	}
+	err := app.readJson(w, r, requestPayload)
+	if err != nil {
+		fmt.Println(err)
+		app.errorJson(w, err)
+		return
+	}
 
 	// Validate the user against DB
+	
 
 	// Check password
 
