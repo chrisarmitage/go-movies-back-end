@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -45,9 +46,15 @@ func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validate the user against DB
-	
+	user, err := app.Db.GetUserByEmail(requestPayload.Email)
+	if err != nil {
+		fmt.Println(err)
+		app.errorJson(w, errors.New("invalid credentials"))
+		return
+	}
 
 	// Check password
+	
 
 	// Create JwtUser
 	u := jwtUser {
