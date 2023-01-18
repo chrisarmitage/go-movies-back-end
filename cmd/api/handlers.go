@@ -37,7 +37,7 @@ func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
-	err := app.readJson(w, r, requestPayload)
+	err := app.readJson(w, r, &requestPayload)
 	if err != nil {
 		fmt.Println(err)
 		app.errorJson(w, err)
