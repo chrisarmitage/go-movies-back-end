@@ -92,3 +92,36 @@ func (r *PostgresDbRepo) GetUserByEmail(email string) (*models.User, error) {
 
 	return &user, nil
 }
+
+func (r *PostgresDbRepo) GetUserById(id int) (*models.User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	query := `
+		SELECT
+			id, email, first_name, last_name, password, created_at, updated_at
+		FROM
+			users
+		WHERE
+			id = $1
+	`
+
+	var user models.User
+
+	row := r.Db.QueryRowContext(ctx, query, id)
+
+	err := row.Scan(
+		&user.Id,
+		&user.Email,
+		&user.FirstName,
+		&user.LastName,
+		&user.Password,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
