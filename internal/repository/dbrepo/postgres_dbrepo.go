@@ -79,6 +79,7 @@ func (r *PostgresDbRepo) GetUserByEmail(email string) (*models.User, error) {
 
 	err := row.Scan(
 		&user.Id,
+		&user.Email,
 		&user.FirstName,
 		&user.LastName,
 		&user.Password,
