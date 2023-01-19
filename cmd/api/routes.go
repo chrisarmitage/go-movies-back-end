@@ -24,5 +24,12 @@ func (app *application) routes() http.Handler {
 	mux.Get("/refresh", app.refreshToken)
 	mux.Get("/logout", app.logout)
 
+	// Route group. All routes in here will have authRequired active
+	mux.Route("/admin", func(mux chi.Router) {
+		mux.Use(app.authRequired)
+
+		mux.Get("/movies", app.movieCatalog)
+	})
+
 	return mux
 }
