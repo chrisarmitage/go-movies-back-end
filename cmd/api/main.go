@@ -21,6 +21,7 @@ type application struct {
 	JwtIssuer    string
 	JwtAudience  string
 	CookieDomain string
+	TmdbApiKey   string
 }
 
 func main() {
@@ -34,7 +35,8 @@ func main() {
 	flag.StringVar(&app.JwtAudience, "jwt-audience", "example.com", "signing audience")
 	flag.StringVar(&app.Domain, "domain", "example.com", "domain")
 	flag.StringVar(&app.CookieDomain, "cookie-domain", "localhost", "cookie domain")
-	
+	flag.StringVar(&app.TmdbApiKey, "tmdb-api-key", "", "api key")
+
 	flag.Parse()
 
 	// connect to database
