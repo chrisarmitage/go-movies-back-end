@@ -227,7 +227,21 @@ func (app *application) InsertMovie(w http.ResponseWriter, r *http.Request) {
 	// try to get image
 	movie = app.getPoster(movie)
 
+	// Insert movie
+	newId, err := app.Db.InsertMovie(movie)
+	if err != nil {
+		fmt.Println(err)
+		app.errorJson(w, err)
+		return
+	}
+
 	// handle genres
+	err = app.Db.UpdateMovieGenres(newId, movie.GenresArray)
+	if err != nil {
+		fmt.Println(err)
+		app.errorJson(w, err)
+		return
+	}
 
 	resp := JsonResponse{
 		Error: false,
