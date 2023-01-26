@@ -380,7 +380,7 @@ func (r *PostgresDbRepo) UpdateMovieGenres(id int, genreIds []int) error {
 	for _, n := range genreIds {
 		stmt := `
 			INSERT INTO movies_genres (movie_id, genre_id)
-				VALUE ($1, $2)
+				VALUES ($1, $2)
 		`
 		_, err := r.Db.ExecContext(ctx, stmt, id, n)
 		if err != nil {
