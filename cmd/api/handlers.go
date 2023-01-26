@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/golang-jwt/jwt/v4"
@@ -220,8 +221,11 @@ func (app *application) InsertMovie(w http.ResponseWriter, r *http.Request) {
 		app.errorJson(w, err)
 		return
 	}
+	movie.CreatedAt = time.Now()
+	movie.UpdatedAt = time.Now()
 
 	// try to get image
+	movie = app.getPoster(movie)
 
 	// handle genres
 
