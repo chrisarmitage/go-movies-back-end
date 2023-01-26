@@ -354,6 +354,7 @@ func (r *PostgresDbRepo) InsertMovie(movie models.Movie) (int, error) {
 		movie.MpaaRating,
 		movie.CreatedAt,
 		movie.UpdatedAt,
+		movie.Image,
 	).Scan(&newId)
 
 	if err != nil {
