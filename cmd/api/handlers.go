@@ -207,3 +207,25 @@ func (app *application) AllGenres(w http.ResponseWriter, r *http.Request) {
 
 	_ = app.writeJson(w, http.StatusOK, genres)
 }
+
+func (app *application) InsertMovie(w http.ResponseWriter, r *http.Request) {
+	var movie models.Movie
+
+	err := app.readJson(w, r, &movie)
+	if err != nil {
+		fmt.Println(err)
+		app.errorJson(w, err)
+		return
+	}
+
+	// try to get image
+
+	// handle genres
+
+	resp := JsonResponse{
+		Error: false,
+		Message: "movie updated",
+	}
+
+	_ = app.writeJson(w, http.StatusOK, resp)
+}
