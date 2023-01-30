@@ -369,3 +369,22 @@ func (app *application) getPoster(movie models.Movie) models.Movie {
 
 	return movie
 }
+
+func (app *application) AllMoviesByGenre(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	genreId, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Println(err)
+		app.errorJson(w, err)
+		return
+	}
+	
+	movies, err := app.Db.AllMovies(genreId)
+	if err != nil {
+		fmt.Println(err)
+		app.errorJson(w, err)
+		return
+	}
+
+	_ = app.writeJson(w, http.StatusOK, movies)
+}
