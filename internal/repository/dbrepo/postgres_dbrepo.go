@@ -364,6 +364,41 @@ func (r *PostgresDbRepo) InsertMovie(movie models.Movie) (int, error) {
 	return newId, nil
 }
 
+func (r *PostgresDbRepo) UpdateMovie(movie models.Movie) error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `
+		UPDATE movies SET
+			title = $1,
+			description = $2,
+			release_date = $3,
+			runtime = $4,
+			mpaa_rating = $5,
+			updated_at = $6,
+			image = $7
+		WHERE id = $8
+	`
+	
+	_, err := r.Db.ExecContext(
+		ctx,
+		stmt,
+		movie.Title,
+		movie.Description,
+		movie.ReleaseDate,
+		movie.RunTime,
+		movie.MpaaRating,
+		movie.UpdatedAt,
+		movie.Image,
+		movie.Id,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *PostgresDbRepo) UpdateMovieGenres(id int, genreIds []int) error {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
