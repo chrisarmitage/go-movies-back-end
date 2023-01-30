@@ -25,7 +25,7 @@ func (r *PostgresDbRepo) AllMovies(genre ...int) ([]*models.Movie, error) {
 
 	where := ""
 	if len(genre) > 0 {
-		where = fmt.Sprintf("WHERE ID IN (SELECT movie_id FROM movie_genres WHERE genre_id = %d)", genre[0])
+		where = fmt.Sprintf("WHERE ID IN (SELECT movie_id FROM movies_genres WHERE genre_id = %d)", genre[0])
 	}
 
 	query := fmt.Sprintf(`
@@ -389,7 +389,7 @@ func (r *PostgresDbRepo) UpdateMovie(movie models.Movie) error {
 			image = $7
 		WHERE id = $8
 	`
-	
+
 	_, err := r.Db.ExecContext(
 		ctx,
 		stmt,
