@@ -399,6 +399,23 @@ func (r *PostgresDbRepo) UpdateMovie(movie models.Movie) error {
 	return nil
 }
 
+func (r *PostgresDbRepo) DeleteMovie(id int) error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `
+		DELETE FROM movies
+		WHERE id = $1
+	`
+	// genres are taken care of by the Postgres foreign key
+	_, err := r.Db.ExecContext(ctx, stmt, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *PostgresDbRepo) UpdateMovieGenres(id int, genreIds []int) error {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
