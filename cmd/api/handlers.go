@@ -296,6 +296,29 @@ func (app *application) UpdateMovie(w http.ResponseWriter, r *http.Request) {
 	app.writeJson(w, http.StatusAccepted, resp)
 }
 
+func (app *application) DeleteMovie(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	movieId, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Println(err)
+		app.errorJson(w, err)
+		return
+	}
+
+	err = app.Db.DeleteMovie(movieId)
+	if err != nil {
+		fmt.Println(err)
+		app.errorJson(w, err)
+		return
+	}
+
+	resp := JsonResponse{
+		Error: false,
+		Message: "movie deleted",
+	}
+	app.writeJson(w, http.StatusAccepted, resp)
+}
+
 func (app *application) getPoster(movie models.Movie) models.Movie {
 	type theMovieDb struct {
 		Page int `json:"page"`
